@@ -17,6 +17,45 @@ import type {
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = join(here, "..", "data");
 
+type AzuraCastSong = {
+  id?: string;
+  text?: string;
+  artist?: string;
+  title?: string;
+  album?: string;
+  genre?: string;
+  art?: string;
+};
+
+type AzuraCastNowPlaying = {
+  station?: {
+    id?: number;
+    name?: string;
+    listen_url?: string;
+    description?: string;
+    timezone?: string;
+  };
+  listeners?: {
+    current?: number;
+    total?: number;
+    unique?: number;
+  };
+  now_playing?: {
+    played_at?: number;
+    duration?: number;
+    playlist?: string;
+    elapsed?: number;
+    remaining?: number;
+    song?: AzuraCastSong;
+  };
+  playing_next?: {
+    duration?: number;
+    playlist?: string;
+    song?: AzuraCastSong;
+  };
+  is_online?: boolean;
+};
+
 const weekdays = [
   "sunday",
   "monday",
@@ -32,16 +71,59 @@ async function readJson<T>(fileName: string): Promise<T> {
   return JSON.parse(content) as T;
 }
 
+async function getAzuraCastNowPlaying(): Promise<AzuraCastNowPlaying | null> {
+  const url = process.env.AZURACAST_NOW_PLAYING_URL;
+
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(2500)
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as AzuraCastNowPlaying;
+  } catch {
+    return null;
+  }
+}
+
+function azuraSongToTrack(song: AzuraCastSong | undefined, durationSeconds: number, fallback: Track): Track {
+  if (!song) {
+    return fallback;
+  }
+
+  return {
+    id: song.id || fallback.id,
+    title: song.title || song.text || fallback.title,
+    artist: song.artist || "Radium",
+    album: song.album || fallback.album,
+    durationSeconds: Math.max(1, Math.round(durationSeconds || fallback.durationSeconds)),
+    genre: song.genre || fallback.genre,
+    energy: fallback.energy,
+    mood: fallback.mood,
+    source: "azuracast"
+  };
+}
+
 export async function getStation(): Promise<StationConfig & { demoMode: boolean }> {
   const station = await readJson<StationConfig>("station.json");
-  const streamUrl = process.env.RADIUM_STREAM_URL || station.streamUrl;
+  const azuraCast = await getAzuraCastNowPlaying();
+  const streamUrl = process.env.RADIUM_STREAM_URL || azuraCast?.station?.listen_url || station.streamUrl;
   const publicUrl = process.env.RADIUM_PUBLIC_URL || station.publicUrl;
 
   return {
     ...station,
+    description: azuraCast?.station?.description || station.description,
     streamUrl,
     publicUrl,
-    demoMode: !streamUrl
+    status: azuraCast?.is_online ? "online" : station.status,
+    demoMode: !streamUrl || !azuraCast?.is_online
   };
 }
 
@@ -126,6 +208,38 @@ export async function getNowPlaying(now = new Date()): Promise<NowPlaying> {
   }
 
   const fallbackTrack = tracks[0] as Track;
+  const azuraCast = await getAzuraCastNowPlaying();
+
+  if (azuraCast?.now_playing?.song) {
+    const durationSeconds = Math.max(1, Math.round(azuraCast.now_playing.duration || fallbackTrack.durationSeconds));
+    const progressSeconds = Math.min(
+      durationSeconds,
+      Math.max(0, Math.round(azuraCast.now_playing.elapsed || 0))
+    );
+    const startedAt = azuraCast.now_playing.played_at
+      ? new Date(azuraCast.now_playing.played_at * 1000)
+      : new Date(now.getTime() - progressSeconds * 1000);
+    const track = azuraSongToTrack(azuraCast.now_playing.song, durationSeconds, fallbackTrack);
+    const nextTrack = azuraSongToTrack(
+      azuraCast.playing_next?.song,
+      Math.round(azuraCast.playing_next?.duration || fallbackTrack.durationSeconds),
+      fallbackTrack
+    );
+
+    return {
+      stationId: station.id,
+      generatedAt: now.toISOString(),
+      streamUrl: station.streamUrl,
+      demoMode: !station.streamUrl || !azuraCast.is_online,
+      track,
+      nextTrack,
+      progressSeconds,
+      durationSeconds,
+      startedAt: startedAt.toISOString(),
+      endsAt: new Date(startedAt.getTime() + durationSeconds * 1000).toISOString()
+    };
+  }
+
   const cycleSeconds = tracks.reduce((total, track) => total + track.durationSeconds, 0);
   const currentSecond = Math.floor(now.getTime() / 1000);
   const offset = currentSecond % cycleSeconds;

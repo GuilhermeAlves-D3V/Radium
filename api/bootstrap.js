@@ -8,7 +8,7 @@ import {
   json
 } from "../vercel/api-data.js";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (handleOptions(req, res)) {
     return;
   }
@@ -20,10 +20,9 @@ export default function handler(req, res) {
 
   json(res, 200, {
     station: getStation(),
-    nowPlaying: getNowPlaying(),
+    nowPlaying: await getNowPlaying(),
     schedule: getScheduleForDate(),
     programs: getPrograms(),
     playlists: getPlaylists()
   });
 }
-

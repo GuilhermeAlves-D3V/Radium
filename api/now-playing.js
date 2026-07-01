@@ -1,6 +1,6 @@
 import { getNowPlaying, handleOptions, json } from "../vercel/api-data.js";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (handleOptions(req, res)) {
     return;
   }
@@ -10,6 +10,5 @@ export default function handler(req, res) {
     return;
   }
 
-  json(res, 200, getNowPlaying());
+  json(res, 200, await getNowPlaying());
 }
-

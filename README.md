@@ -23,12 +23,12 @@ URLs principais:
 
 ## Ligar um stream real
 
-Enquanto `RADIUM_STREAM_URL` estiver vazio, a PWA fica em modo demo: mostra a rotacao e a grelha, mas nao toca audio.
+Enquanto nao houver stream ou AzuraCast configurado, a PWA fica em modo demo: mostra a rotacao e a grelha, mas nao toca audio.
 
 Cria `apps/api/.env` a partir de `apps/api/.env.example` e define:
 
 ```bash
-RADIUM_STREAM_URL=https://teu-servidor/radio/8000/radio.mp3
+AZURACAST_NOW_PLAYING_URL=http://localhost/api/nowplaying/radium
 RADIUM_PUBLIC_URL=http://localhost:5173
 ```
 
@@ -36,6 +36,14 @@ Depois reinicia:
 
 ```bash
 npm run dev
+```
+
+Com `AZURACAST_NOW_PLAYING_URL`, a API da Radium usa o AzuraCast como fonte de verdade para URL do stream, musica atual, proxima musica, progresso da faixa e estado online/offline.
+
+Se quiseres forcar um stream manualmente, tambem podes definir:
+
+```bash
+RADIUM_STREAM_URL=http://localhost/listen/radium/radio.mp3
 ```
 
 ## Build
@@ -58,13 +66,13 @@ Config recomendada na Vercel:
 - Output Directory: `apps/web/dist`
 - Install Command: `npm install`
 
-Variavel opcional para ligar audio real:
+Variavel opcional para ligar audio real e metadados:
 
 ```bash
-RADIUM_STREAM_URL=http://localhost:8000/radio/8000/radio.mp3
+AZURACAST_NOW_PLAYING_URL=https://teu-azuracast-publico/api/nowplaying/radium
 ```
 
-Para um deploy publico real, usa um URL acessivel pela internet, nao `localhost`.
+Para um deploy publico real, usa URLs acessiveis pela internet, nao `localhost`.
 
 Mais detalhes: `docs/deploy-vercel.md`.
 

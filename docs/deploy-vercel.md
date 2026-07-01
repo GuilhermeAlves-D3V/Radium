@@ -31,7 +31,13 @@ Para publicar em modo demo, nao precisas de variaveis.
 Para ligar a um stream real:
 
 ```bash
-RADIUM_STREAM_URL=https://teu-dominio-ou-ip/radio/8000/radio.mp3
+AZURACAST_NOW_PLAYING_URL=https://teu-azuracast-publico/api/nowplaying/radium
+```
+
+Se nao quiseres usar os metadados do AzuraCast e quiseres so forcar audio:
+
+```bash
+RADIUM_STREAM_URL=https://teu-azuracast-publico/listen/radium/radio.mp3
 ```
 
 Opcional:
@@ -40,7 +46,7 @@ Opcional:
 RADIUM_PUBLIC_URL=https://radium.vercel.app
 ```
 
-Nao uses `localhost` na Vercel para o stream, porque `localhost` dentro da Vercel aponta para a propria funcao serverless, nao para o teu PC.
+Nao uses `localhost` na Vercel para o stream ou para `AZURACAST_NOW_PLAYING_URL`, porque `localhost` dentro da Vercel aponta para a propria funcao serverless, nao para o teu PC.
 
 ## Fluxo recomendado
 
@@ -48,8 +54,8 @@ Nao uses `localhost` na Vercel para o stream, porque `localhost` dentro da Verce
 2. Importar o repo na Vercel.
 3. Fazer primeiro deploy em modo demo.
 4. Configurar AzuraCast local ou num VPS.
-5. Obter o URL publico do stream.
-6. Definir `RADIUM_STREAM_URL` na Vercel.
+5. Obter o endpoint publico `api/nowplaying/radium`.
+6. Definir `AZURACAST_NOW_PLAYING_URL` na Vercel.
 7. Fazer redeploy.
 
 ## Limites atuais
@@ -57,4 +63,3 @@ Nao uses `localhost` na Vercel para o stream, porque `localhost` dentro da Verce
 - Os eventos de escuta em `api/listener-events` sao aceites, mas nao ficam persistidos na Vercel.
 - Para analytics real, usa uma base de dados externa ou Vercel KV/Postgres.
 - Para conteudo editavel, substitui os JSON por uma base de dados ou CMS.
-

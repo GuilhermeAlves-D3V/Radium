@@ -58,7 +58,7 @@ export function App() {
   const [volume, setVolume] = useState(0.78);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
-  const streamUrl = station?.streamUrl || station?.fallbackStreamUrl || "";
+  const streamUrl = nowPlaying?.streamUrl || station?.streamUrl || station?.fallbackStreamUrl || "";
   const progress = nowPlaying
     ? Math.min(100, Math.max(0, (nowPlaying.progressSeconds / nowPlaying.durationSeconds) * 100))
     : 0;
@@ -445,4 +445,3 @@ function timeToMinutes(value: string) {
   const [hours = "0", minutes = "0"] = value.split(":");
   return Number(hours) * 60 + Number(minutes);
 }
-

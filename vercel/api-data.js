@@ -31,6 +31,46 @@ export function getStation() {
   };
 }
 
+async function getAzuraCastNowPlaying() {
+  const url = process.env.AZURACAST_NOW_PLAYING_URL;
+
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(2500)
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+function azuraSongToTrack(song, durationSeconds, fallback) {
+  if (!song) {
+    return fallback;
+  }
+
+  return {
+    id: song.id || fallback.id,
+    title: song.title || song.text || fallback.title,
+    artist: song.artist || "Radium",
+    album: song.album || fallback.album,
+    durationSeconds: Math.max(1, Math.round(durationSeconds || fallback.durationSeconds)),
+    genre: song.genre || fallback.genre,
+    energy: fallback.energy,
+    mood: fallback.mood,
+    source: "azuracast"
+  };
+}
+
 export function getCatalog() {
   return {
     tracks: readJson("tracks.json"),
@@ -83,12 +123,46 @@ export function getScheduleForDate(dateInput) {
   };
 }
 
-export function getNowPlaying(now = new Date()) {
+export async function getNowPlaying(now = new Date()) {
   const station = getStation();
   const { tracks } = getCatalog();
 
   if (tracks.length === 0) {
     throw new Error("No tracks configured");
+  }
+
+  const fallbackTrack = tracks[0];
+  const azuraCast = await getAzuraCastNowPlaying();
+
+  if (azuraCast?.now_playing?.song) {
+    const streamUrl = process.env.RADIUM_STREAM_URL || azuraCast.station?.listen_url || station.streamUrl;
+    const durationSeconds = Math.max(1, Math.round(azuraCast.now_playing.duration || fallbackTrack.durationSeconds));
+    const progressSeconds = Math.min(
+      durationSeconds,
+      Math.max(0, Math.round(azuraCast.now_playing.elapsed || 0))
+    );
+    const startedAt = azuraCast.now_playing.played_at
+      ? new Date(azuraCast.now_playing.played_at * 1000)
+      : new Date(now.getTime() - progressSeconds * 1000);
+    const track = azuraSongToTrack(azuraCast.now_playing.song, durationSeconds, fallbackTrack);
+    const nextTrack = azuraSongToTrack(
+      azuraCast.playing_next?.song,
+      Math.round(azuraCast.playing_next?.duration || fallbackTrack.durationSeconds),
+      fallbackTrack
+    );
+
+    return {
+      stationId: station.id,
+      generatedAt: now.toISOString(),
+      streamUrl,
+      demoMode: !streamUrl || !azuraCast.is_online,
+      track,
+      nextTrack,
+      progressSeconds,
+      durationSeconds,
+      startedAt: startedAt.toISOString(),
+      endsAt: new Date(startedAt.getTime() + durationSeconds * 1000).toISOString()
+    };
   }
 
   const cycleSeconds = tracks.reduce((total, track) => total + track.durationSeconds, 0);
@@ -106,7 +180,7 @@ export function getNowPlaying(now = new Date()) {
     cursor += track.durationSeconds;
   }
 
-  const track = tracks[index] ?? tracks[0];
+  const track = tracks[index] ?? fallbackTrack;
   const nextTrack = tracks[(index + 1) % tracks.length] ?? track;
   const progressSeconds = offset - cursor;
   const startedAt = new Date((currentSecond - progressSeconds) * 1000);
@@ -145,4 +219,3 @@ export function handleOptions(req, res) {
   res.status(204).end();
   return true;
 }
-

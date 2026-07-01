@@ -20,7 +20,7 @@ Na primeira visita a `http://localhost`, cria a conta de administrador do AzuraC
 ## Fluxo
 
 ```text
-AzuraCast / AutoDJ -> Icecast -> RADIUM_STREAM_URL -> API Radium -> PWA
+AzuraCast / AutoDJ -> Icecast -> AZURACAST_NOW_PLAYING_URL -> API Radium -> PWA
 ```
 
 ## Passos
@@ -29,8 +29,8 @@ AzuraCast / AutoDJ -> Icecast -> RADIUM_STREAM_URL -> API Radium -> PWA
 2. Criar uma estacao chamada `Radium`.
 3. Ativar AutoDJ.
 4. Carregar apenas audio autorizado.
-5. Copiar o URL publico do mount point.
-6. Definir esse URL em `RADIUM_STREAM_URL`.
+5. Copiar o endpoint publico de now playing.
+6. Definir esse URL em `AZURACAST_NOW_PLAYING_URL`.
 7. Reiniciar a API.
 
 ## Comandos locais
@@ -68,7 +68,15 @@ wsl -d Ubuntu-22.04 -u root -- bash -lc "cd /var/azuracast && ./docker.sh update
 ## Exemplo de URL
 
 ```bash
-RADIUM_STREAM_URL=https://radio.exemplo.com/radio/8000/radium.mp3
+AZURACAST_NOW_PLAYING_URL=http://localhost/api/nowplaying/radium
+```
+
+Para a Radium local, este endpoint chega: a API da Radium descobre o `listen_url` e envia-o para a PWA.
+
+Se quiseres forcar o stream diretamente:
+
+```bash
+RADIUM_STREAM_URL=http://localhost/listen/radium/radio.mp3
 ```
 
 ## Notas
