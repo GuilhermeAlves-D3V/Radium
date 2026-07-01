@@ -10,6 +10,7 @@ type AzuraCastQueueSong = {
 type AzuraCastQueueItem = {
   id?: number;
   timestamp_cued?: number;
+  cued_at?: number;
   media?: {
     id?: number;
     song_id?: string;
@@ -17,6 +18,9 @@ type AzuraCastQueueItem = {
     title?: string;
   };
   song?: AzuraCastQueueSong;
+  links?: {
+    self?: string;
+  };
 };
 
 function stationApiUrl(path: string) {
@@ -66,10 +70,10 @@ export async function getAzuraCastQueue(limit = 5) {
 
   return items.slice(0, limit).map((item, index) => {
     const title = item.media?.title || item.song?.title || item.song?.text || "Queued track";
-    const artist = item.media?.artist || item.song?.artist || "AzuraCast";
+    const artist = item.media?.artist || item.song?.artist || "Radium";
 
     return {
-      id: String(item.id ?? `azuracast-${index}`),
+      id: String(item.id ?? queueIdFromLink(item.links?.self) ?? item.song?.id ?? `azuracast-${index}`),
       title,
       artist,
       source: "azuracast" as const,
@@ -78,3 +82,7 @@ export async function getAzuraCastQueue(limit = 5) {
   });
 }
 
+function queueIdFromLink(link: string | undefined) {
+  const match = link?.match(/\/queue\/([^/?#]+)$/);
+  return match?.[1];
+}

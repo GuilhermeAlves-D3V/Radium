@@ -15,6 +15,7 @@
 - Se o player falha em mobile, confirmar HTTPS no dominio final.
 - Se o telemovel nao abre a PWA local, confirmar que esta no mesmo Wi-Fi, que `npm run dev` esta ativo e que o firewall do Windows permite as portas `5173` e `4100`.
 - Se o admin consegue ordenar pedidos mas a musica real nao muda, isso e esperado sem controlo manual no AzuraCast ou `AZURACAST_API_KEY` para skip.
+- Se o codigo admin falha, confirmar `RADIUM_ADMIN_PIN` em `apps/api/.env` e reiniciar a API.
 - Se a API nao arranca, correr `npm run dev:api` e ler o erro.
 - Se o build falha, correr `npm run typecheck`.
 

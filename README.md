@@ -52,7 +52,7 @@ RADIUM_STREAM_URL=http://localhost/listen/radium/radio.mp3
 
 Para usar numa festa em casa, corre o AzuraCast e a Radium no teu PC, com `HOST=0.0.0.0` e URLs no IP local do PC. Os convidados entram em `http://IP-DO-PC:5173`.
 
-O painel admin fica protegido por `RADIUM_ADMIN_PIN`. A fila social e guardada em `apps/api/data/party-queue.json`.
+O painel admin vive em `/admin` e fica protegido por `RADIUM_ADMIN_PIN`. A fila social e guardada em `apps/api/data/party-queue.json`.
 
 Guia completo: `docs/party-mode.md`.
 

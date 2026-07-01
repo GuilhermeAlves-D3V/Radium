@@ -51,12 +51,21 @@ export function addSuggestion(input: {
   });
 }
 
+export function verifyAdminPin(pin: string): Promise<{ ok: boolean }> {
+  return request<{ ok: boolean }>("/api/admin/session", {
+    headers: {
+      "X-Radium-Admin": pin
+    }
+  });
+}
+
 export function approveSuggestion(id: string, pin: string): Promise<PartyRequest> {
   return request<PartyRequest>(`/api/admin/suggestions/${id}/approve`, {
     method: "POST",
     headers: {
       "X-Radium-Admin": pin
-    }
+    },
+    body: "{}"
   });
 }
 
@@ -79,7 +88,8 @@ export function skipLiveTrack(pin: string): Promise<{ ok: boolean }> {
     method: "POST",
     headers: {
       "X-Radium-Admin": pin
-    }
+    },
+    body: "{}"
   });
 }
 
@@ -88,7 +98,8 @@ export function clearParty(pin: string): Promise<{ ok: boolean }> {
     method: "POST",
     headers: {
       "X-Radium-Admin": pin
-    }
+    },
+    body: "{}"
   });
 }
 

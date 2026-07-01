@@ -215,6 +215,7 @@ export function getPartySnapshot(nowPlaying) {
 
   return {
     upNext,
+    queue: [],
     suggestions: [],
     recent: [],
     canControlAzuraCast: false,

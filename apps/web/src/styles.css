@@ -44,10 +44,12 @@ button:disabled {
 
 .party-header,
 .party-brand,
+.header-actions,
 .transport-row,
 .panel-heading,
 .admin-toggle,
 .admin-actions,
+.icon-button,
 .ghost-button,
 .primary-button,
 .danger-button,
@@ -65,6 +67,12 @@ button:disabled {
 .party-brand {
   min-width: 0;
   gap: 12px;
+}
+
+.header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .brand-disc {
@@ -372,7 +380,8 @@ input:focus {
 .primary-button,
 .danger-button,
 .ghost-button,
-.admin-toggle {
+.admin-toggle,
+.icon-button {
   justify-content: center;
   gap: 8px;
   min-height: 46px;
@@ -393,10 +402,16 @@ input:focus {
 }
 
 .ghost-button,
-.admin-toggle {
+.admin-toggle,
+.icon-button {
   color: #f8f1e8;
   background: rgba(248, 241, 232, 0.08);
   border: 1px solid rgba(248, 241, 232, 0.14);
+}
+
+.icon-button {
+  width: 46px;
+  padding: 0;
 }
 
 .notice-line,
@@ -415,6 +430,58 @@ input:focus {
 
 .admin-panel {
   grid-column: 1 / -1;
+}
+
+.admin-shell {
+  min-height: 100vh;
+}
+
+.admin-login-wrap {
+  display: grid;
+  min-height: calc(100vh - 116px);
+  place-items: center;
+}
+
+.admin-login-panel {
+  width: min(420px, 100%);
+}
+
+.admin-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.7fr);
+  gap: 14px;
+}
+
+.admin-live-panel,
+.admin-list-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.admin-live-panel {
+  grid-row: span 2;
+}
+
+.admin-live-track {
+  min-height: 190px;
+  padding: 16px;
+  background: #151413;
+  border: 1px solid rgba(248, 241, 232, 0.1);
+  border-radius: 8px;
+}
+
+.admin-live-track h2 {
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+  font-size: 2.2rem;
+  line-height: 1.04;
+}
+
+.admin-live-track p:last-child {
+  margin-bottom: 0;
+  color: #f1c9a8;
+  font-weight: 800;
 }
 
 .admin-toggle {
@@ -459,6 +526,7 @@ input:focus {
 
 .mini-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -493,7 +561,15 @@ input:focus {
     grid-template-columns: 1fr;
   }
 
+  .admin-page-grid {
+    grid-template-columns: 1fr;
+  }
+
   .up-next-panel {
+    grid-row: auto;
+  }
+
+  .admin-live-panel {
     grid-row: auto;
   }
 }
@@ -507,6 +583,11 @@ input:focus {
   .party-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .deck-hero,
@@ -537,5 +618,9 @@ input:focus {
 
   .admin-row {
     grid-template-columns: 1fr;
+  }
+
+  .admin-live-track h2 {
+    font-size: 1.65rem;
   }
 }

@@ -106,6 +106,7 @@ export type PartyUpNextItem = {
 
 export type PartySnapshot = {
   upNext: PartyUpNextItem[];
+  queue: PartyRequest[];
   suggestions: PartyRequest[];
   recent: PartyRequest[];
   canControlAzuraCast: boolean;

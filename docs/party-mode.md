@@ -16,7 +16,8 @@ RADIUM_STREAM_URL=http://192.168.0.12/listen/radium/radio.mp3
 AZURACAST_NOW_PLAYING_URL=http://localhost/api/nowplaying/radium
 AZURACAST_BASE_URL=http://localhost
 AZURACAST_STATION_ID=radium
-RADIUM_ADMIN_PIN=2468
+AZURACAST_API_KEY=<api-key-do-azuracast>
+RADIUM_ADMIN_PIN=<codigo-admin>
 ```
 
 4. Arranca a app:
@@ -35,7 +36,13 @@ http://192.168.0.12:5173
 
 Qualquer pessoa pode enviar uma sugestao pela PWA. O pedido fica guardado em `apps/api/data/party-queue.json`, que nao entra no Git.
 
-No painel `Admin deck`, o PIN local permite:
+O acesso de gestao fica em:
+
+```text
+http://192.168.0.12:5173/admin
+```
+
+O PIN local permite:
 
 - aprovar pedidos para a fila social;
 - subir/descer pedidos;
@@ -44,6 +51,21 @@ No painel `Admin deck`, o PIN local permite:
 - limpar a fila;
 - fazer skip real no AzuraCast, se houver `AZURACAST_API_KEY`.
 
+## Como uma sugestao passa a tocar
+
+As sugestoes da PWA sao texto livre. Elas nao criam audio novo e nao fazem download de musica.
+
+Para uma sugestao tocar automaticamente, a faixa tem de existir no AzuraCast como ficheiro na biblioteca da estacao e estar disponivel numa playlist/requestable queue que o AzuraCast consiga tocar.
+
+Com `AZURACAST_API_KEY` configurada, a secao `Proximas 5` mostra a fila real do AzuraCast. A fila social fica no `/admin` como lista de pedidos aprovados pelo admin.
+
+Quando a faixa ainda nao existe na biblioteca, o fluxo e manual:
+
+1. convidado sugere a musica;
+2. admin ve a sugestao em `/admin`;
+3. admin adiciona/upload a faixa no AzuraCast, se for para tocar;
+4. admin usa a fila social como ordem de referencia.
+
 ## Limite importante
 
 A fila social do Radium controla a ordem dos pedidos dentro da PWA. Ela nao reordena automaticamente a fila interna do AzuraCast, porque a API do AzuraCast exposta nesta instalacao permite ver/apagar fila e fazer skip, mas nao oferece uma acao simples para reordenar qualquer faixa.
@@ -51,7 +73,7 @@ A fila social do Radium controla a ordem dos pedidos dentro da PWA. Ela nao reor
 Para controlo real total tens duas opcoes:
 
 - usar a fila social como lista de DJ e adicionar/tocar manualmente no AzuraCast;
-- configurar uma API key do AzuraCast para pelo menos permitir `skip live` pela PWA.
+- configurar uma API key do AzuraCast para permitir `skip live` pela PWA e ler a fila real quando a API permite.
 
 ## O que nao fazer
 

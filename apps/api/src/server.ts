@@ -121,6 +121,14 @@ function requireAdmin(request: { headers: Record<string, unknown> }) {
   return isAdminPinValid(Array.isArray(pin) ? pin[0] : String(pin ?? ""));
 }
 
+app.get("/api/admin/session", async (request, reply) => {
+  if (!requireAdmin(request)) {
+    return reply.code(401).send({ error: "admin_pin_required" });
+  }
+
+  return { ok: true };
+});
+
 app.post<{
   Params: {
     id: string;

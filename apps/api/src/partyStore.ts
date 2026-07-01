@@ -83,7 +83,8 @@ export function isAdminPinValid(pin: string | undefined) {
 
 export async function getPartySnapshot(nowPlaying?: NowPlaying): Promise<PartySnapshot> {
   const state = await readPartyState();
-  const localUpNext: PartyUpNextItem[] = queuedRequests(state).map((request, index) => ({
+  const localQueue = queuedRequests(state);
+  const localUpNext: PartyUpNextItem[] = localQueue.map((request, index) => ({
     id: request.id,
     title: request.title,
     artist: request.artist,
@@ -112,8 +113,11 @@ export async function getPartySnapshot(nowPlaying?: NowPlaying): Promise<PartySn
       ]
     : [];
 
+  const upNext = azuraCastUpNext.length > 0 ? azuraCastUpNext : [...localUpNext, ...fallbackNext];
+
   return {
-    upNext: [...localUpNext, ...azuraCastUpNext, ...fallbackNext].slice(0, 5),
+    upNext: upNext.slice(0, 5),
+    queue: localQueue,
     suggestions: suggestedRequests(state),
     recent: recentRequests(state),
     canControlAzuraCast: canControlAzuraCast(),
