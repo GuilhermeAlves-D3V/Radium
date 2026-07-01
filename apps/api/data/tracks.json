@@ -1,0 +1,69 @@
+[
+  {
+    "id": "trk-signal-bloom",
+    "title": "Signal Bloom",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 214,
+    "genre": "electronic",
+    "energy": 7,
+    "mood": "bright",
+    "source": "placeholder"
+  },
+  {
+    "id": "trk-night-circuit",
+    "title": "Night Circuit",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 238,
+    "genre": "synth",
+    "energy": 6,
+    "mood": "late",
+    "source": "placeholder"
+  },
+  {
+    "id": "trk-quiet-carrier",
+    "title": "Quiet Carrier",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 185,
+    "genre": "ambient",
+    "energy": 3,
+    "mood": "focused",
+    "source": "placeholder"
+  },
+  {
+    "id": "trk-low-sun",
+    "title": "Low Sun Frequency",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 267,
+    "genre": "indie",
+    "energy": 5,
+    "mood": "warm",
+    "source": "placeholder"
+  },
+  {
+    "id": "trk-red-led",
+    "title": "Red LED Room",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 229,
+    "genre": "alt",
+    "energy": 8,
+    "mood": "driving",
+    "source": "placeholder"
+  },
+  {
+    "id": "trk-static-window",
+    "title": "Static at the Window",
+    "artist": "Radium Library",
+    "album": "Prototype Rotation",
+    "durationSeconds": 204,
+    "genre": "lofi",
+    "energy": 4,
+    "mood": "soft",
+    "source": "placeholder"
+  }
+]
+

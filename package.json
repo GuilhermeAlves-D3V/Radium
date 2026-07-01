@@ -1,0 +1,22 @@
+{
+  "name": "radium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal online radio ecosystem for Radium.",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w @radium/api\" \"npm run dev -w @radium/web\"",
+    "dev:api": "npm run dev -w @radium/api",
+    "dev:web": "npm run dev -w @radium/web",
+    "build": "npm run build -w @radium/api && npm run build -w @radium/web",
+    "start": "npm run start -w @radium/api",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

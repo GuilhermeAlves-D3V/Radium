@@ -1,0 +1,14 @@
+services:
+  radium:
+    build: .
+    container_name: radium
+    restart: unless-stopped
+    ports:
+      - "4100:4100"
+    environment:
+      PORT: "4100"
+      HOST: "0.0.0.0"
+      LOG_LEVEL: "info"
+      RADIUM_STREAM_URL: "${RADIUM_STREAM_URL:-}"
+      RADIUM_PUBLIC_URL: "${RADIUM_PUBLIC_URL:-http://localhost:4100}"
+

@@ -1,0 +1,26 @@
+{
+  "id": "radium",
+  "name": "Radium",
+  "tagline": "A minha frequencia pessoal.",
+  "description": "Projeto pessoal e hobby para transformar playlists proprias numa radio online com PWA, grelha e automacao.",
+  "owner": "Guilherme",
+  "timezone": "Europe/Lisbon",
+  "locale": "pt-PT",
+  "status": "prototype",
+  "streamUrl": "",
+  "fallbackStreamUrl": "",
+  "publicUrl": "http://localhost:5173",
+  "studioEmail": "hello@radium.local",
+  "brand": {
+    "primary": "#e7442e",
+    "accent": "#00a7a7",
+    "ink": "#171717",
+    "surface": "#f7f6f2"
+  },
+  "legalMode": "personal_hobby",
+  "complianceNotes": [
+    "Usar musica comercial publicamente exige licenciamento e confirmacao regulatoria.",
+    "Enquanto nao houver licencas, manter emissao privada ou usar apenas conteudo autorizado."
+  ]
+}
+

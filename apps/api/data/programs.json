@@ -1,0 +1,35 @@
+[
+  {
+    "id": "prog-warm-boot",
+    "title": "Warm Boot",
+    "host": "Guilherme",
+    "description": "Arranque leve do dia com rotacao pessoal e baixa friccao.",
+    "color": "#e7442e",
+    "defaultPlaylistId": "pl-focus"
+  },
+  {
+    "id": "prog-focus-rotation",
+    "title": "Focus Rotation",
+    "host": "AutoDJ",
+    "description": "Playlists de concentracao e descoberta musical.",
+    "color": "#00a7a7",
+    "defaultPlaylistId": "pl-focus"
+  },
+  {
+    "id": "prog-radium-lab",
+    "title": "Radium Lab",
+    "host": "Guilherme",
+    "description": "Espaco para testar playlists, rubricas e identidade sonora.",
+    "color": "#f2b705",
+    "defaultPlaylistId": "pl-lab"
+  },
+  {
+    "id": "prog-after-hours",
+    "title": "After Hours",
+    "host": "AutoDJ",
+    "description": "Rotacao noturna mais intensa e cinematica.",
+    "color": "#595bd4",
+    "defaultPlaylistId": "pl-after-hours"
+  }
+]
+

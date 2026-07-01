@@ -1,0 +1,36 @@
+[
+  {
+    "id": "pl-focus",
+    "name": "Focus Rotation",
+    "description": "Base diaria para trabalho, estudo e exploracao musical.",
+    "trackIds": [
+      "trk-signal-bloom",
+      "trk-quiet-carrier",
+      "trk-static-window",
+      "trk-low-sun"
+    ]
+  },
+  {
+    "id": "pl-after-hours",
+    "name": "After Hours",
+    "description": "Faixas para fim de tarde e noite.",
+    "trackIds": [
+      "trk-night-circuit",
+      "trk-red-led",
+      "trk-low-sun",
+      "trk-static-window"
+    ]
+  },
+  {
+    "id": "pl-lab",
+    "name": "Radium Lab",
+    "description": "Zona experimental para novas playlists.",
+    "trackIds": [
+      "trk-signal-bloom",
+      "trk-night-circuit",
+      "trk-quiet-carrier",
+      "trk-red-led"
+    ]
+  }
+]
+

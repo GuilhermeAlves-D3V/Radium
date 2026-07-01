@@ -1,0 +1,79 @@
+[
+  {
+    "id": "sch-warm-boot",
+    "days": [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday"
+    ],
+    "start": "07:00",
+    "end": "09:00",
+    "programId": "prog-warm-boot",
+    "playlistId": "pl-focus"
+  },
+  {
+    "id": "sch-focus-morning",
+    "days": [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday"
+    ],
+    "start": "09:00",
+    "end": "13:00",
+    "programId": "prog-focus-rotation",
+    "playlistId": "pl-focus"
+  },
+  {
+    "id": "sch-radium-lab",
+    "days": [
+      "monday",
+      "wednesday",
+      "friday"
+    ],
+    "start": "18:00",
+    "end": "20:00",
+    "programId": "prog-radium-lab",
+    "playlistId": "pl-lab"
+  },
+  {
+    "id": "sch-after-hours-week",
+    "days": [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday"
+    ],
+    "start": "20:00",
+    "end": "00:00",
+    "programId": "prog-after-hours",
+    "playlistId": "pl-after-hours"
+  },
+  {
+    "id": "sch-weekend-lab",
+    "days": [
+      "saturday",
+      "sunday"
+    ],
+    "start": "10:00",
+    "end": "14:00",
+    "programId": "prog-radium-lab",
+    "playlistId": "pl-lab"
+  },
+  {
+    "id": "sch-weekend-after",
+    "days": [
+      "saturday",
+      "sunday"
+    ],
+    "start": "18:00",
+    "end": "00:00",
+    "programId": "prog-after-hours",
+    "playlistId": "pl-after-hours"
+  }
+]
+

@@ -1,0 +1,27 @@
+{
+  "name": "Radium",
+  "short_name": "Radium",
+  "description": "Radio pessoal em PWA.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f6f2",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "/assets/radium-studio.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Player",
+      "short_name": "Player",
+      "url": "/"
+    }
+  ]
+}
+
