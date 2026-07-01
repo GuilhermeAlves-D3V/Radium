@@ -200,11 +200,33 @@ export async function getNowPlaying(now = new Date()) {
   };
 }
 
+export function getPartySnapshot(nowPlaying) {
+  const upNext = nowPlaying?.nextTrack
+    ? [
+        {
+          id: nowPlaying.nextTrack.id,
+          title: nowPlaying.nextTrack.title,
+          artist: nowPlaying.nextTrack.artist,
+          source: "azuracast",
+          position: 0
+        }
+      ]
+    : [];
+
+  return {
+    upNext,
+    suggestions: [],
+    recent: [],
+    canControlAzuraCast: false,
+    adminEnabled: false
+  };
+}
+
 export function json(res, status, payload) {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,X-Radium-Admin");
   res.status(status).json(payload);
 }
 
@@ -215,7 +237,7 @@ export function handleOptions(req, res) {
 
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,X-Radium-Admin");
   res.status(204).end();
   return true;
 }

@@ -81,11 +81,47 @@ export type NowPlaying = {
   endsAt: string;
 };
 
+export type PartyRequestStatus = "suggested" | "queued" | "skipped" | "played" | "rejected";
+
+export type PartyRequest = {
+  id: string;
+  title: string;
+  artist: string;
+  requestedBy: string;
+  note: string;
+  status: PartyRequestStatus;
+  createdAt: string;
+  updatedAt: string;
+  position: number;
+};
+
+export type PartyUpNextItem = {
+  id: string;
+  title: string;
+  artist: string;
+  requestedBy?: string;
+  source: "party" | "azuracast";
+  position: number;
+};
+
+export type PartySnapshot = {
+  upNext: PartyUpNextItem[];
+  suggestions: PartyRequest[];
+  recent: PartyRequest[];
+  canControlAzuraCast: boolean;
+  adminEnabled: boolean;
+};
+
 export type BootstrapPayload = {
   station: Station;
   nowPlaying: NowPlaying;
+  party: PartySnapshot;
   schedule: Schedule;
   programs: Program[];
   playlists: Playlist[];
 };
 
+export type PartyPayload = {
+  nowPlaying: NowPlaying;
+  party: PartySnapshot;
+};

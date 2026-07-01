@@ -1,5 +1,6 @@
 import {
   getNowPlaying,
+  getPartySnapshot,
   getPlaylists,
   getPrograms,
   getScheduleForDate,
@@ -18,9 +19,12 @@ export default async function handler(req, res) {
     return;
   }
 
+  const nowPlaying = await getNowPlaying();
+
   json(res, 200, {
     station: getStation(),
-    nowPlaying: await getNowPlaying(),
+    nowPlaying,
+    party: getPartySnapshot(nowPlaying),
     schedule: getScheduleForDate(),
     programs: getPrograms(),
     playlists: getPlaylists()

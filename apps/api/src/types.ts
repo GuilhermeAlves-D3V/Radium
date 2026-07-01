@@ -94,3 +94,38 @@ export type ListenerEvent = {
   payload?: Record<string, unknown>;
 };
 
+export type PartyRequestStatus = "suggested" | "queued" | "skipped" | "played" | "rejected";
+
+export type PartyRequest = {
+  id: string;
+  title: string;
+  artist: string;
+  requestedBy: string;
+  note: string;
+  status: PartyRequestStatus;
+  createdAt: string;
+  updatedAt: string;
+  position: number;
+};
+
+export type PartyState = {
+  requests: PartyRequest[];
+  updatedAt: string;
+};
+
+export type PartyUpNextItem = {
+  id: string;
+  title: string;
+  artist: string;
+  requestedBy?: string;
+  source: "party" | "azuracast";
+  position: number;
+};
+
+export type PartySnapshot = {
+  upNext: PartyUpNextItem[];
+  suggestions: PartyRequest[];
+  recent: PartyRequest[];
+  canControlAzuraCast: boolean;
+  adminEnabled: boolean;
+};

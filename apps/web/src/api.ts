@@ -1,4 +1,4 @@
-import type { BootstrapPayload, NowPlaying } from "./types";
+import type { BootstrapPayload, NowPlaying, PartyPayload, PartyRequest } from "./types";
 
 const apiBase = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
 
@@ -12,7 +12,16 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+    let message = `Request failed: ${response.status} ${response.statusText}`;
+
+    try {
+      const payload = (await response.json()) as { error?: string; message?: string };
+      message = payload.message || payload.error || message;
+    } catch {
+      // Keep the status-based message when the response is not JSON.
+    }
+
+    throw new Error(message);
   }
 
   return response.json() as Promise<T>;
@@ -24,6 +33,63 @@ export function getBootstrap(): Promise<BootstrapPayload> {
 
 export function getNowPlaying(): Promise<NowPlaying> {
   return request<NowPlaying>("/api/now-playing");
+}
+
+export function getParty(): Promise<PartyPayload> {
+  return request<PartyPayload>("/api/party");
+}
+
+export function addSuggestion(input: {
+  title: string;
+  artist?: string;
+  requestedBy?: string;
+  note?: string;
+}): Promise<PartyRequest> {
+  return request<PartyRequest>("/api/suggestions", {
+    method: "POST",
+    body: JSON.stringify(input)
+  });
+}
+
+export function approveSuggestion(id: string, pin: string): Promise<PartyRequest> {
+  return request<PartyRequest>(`/api/admin/suggestions/${id}/approve`, {
+    method: "POST",
+    headers: {
+      "X-Radium-Admin": pin
+    }
+  });
+}
+
+export function updateQueueItem(
+  id: string,
+  action: "up" | "down" | "top" | "skip" | "played" | "reject",
+  pin: string
+): Promise<PartyRequest> {
+  return request<PartyRequest>(`/api/admin/queue/${id}`, {
+    method: "POST",
+    headers: {
+      "X-Radium-Admin": pin
+    },
+    body: JSON.stringify({ action })
+  });
+}
+
+export function skipLiveTrack(pin: string): Promise<{ ok: boolean }> {
+  return request<{ ok: boolean }>("/api/admin/skip", {
+    method: "POST",
+    headers: {
+      "X-Radium-Admin": pin
+    }
+  });
+}
+
+export function clearParty(pin: string): Promise<{ ok: boolean }> {
+  return request<{ ok: boolean }>("/api/admin/clear-party", {
+    method: "POST",
+    headers: {
+      "X-Radium-Admin": pin
+    }
+  });
 }
 
 export function sendListenerEvent(
@@ -54,4 +120,3 @@ function getSessionId(): string {
   window.localStorage.setItem(key, sessionId);
   return sessionId;
 }
-

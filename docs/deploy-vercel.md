@@ -9,7 +9,7 @@ Este repo esta preparado para publicar a PWA da Radium na Vercel.
 - API serverless: `api/*`
 - Dados seed: `apps/api/data/*.json`
 
-O servidor Fastify em `apps/api` continua util para desenvolvimento local e para uma futura API persistente. Na Vercel, as rotas serverless em `api/*` expõem uma versao compativel dos mesmos dados.
+O servidor Fastify em `apps/api` continua util para desenvolvimento local e para uma futura API persistente. Na Vercel, as rotas serverless em `api/*` expoem uma versao compativel dos mesmos dados.
 
 ## Configuracao do projeto
 
@@ -61,5 +61,6 @@ Nao uses `localhost` na Vercel para o stream ou para `AZURACAST_NOW_PLAYING_URL`
 ## Limites atuais
 
 - Os eventos de escuta em `api/listener-events` sao aceites, mas nao ficam persistidos na Vercel.
+- O modo festa com pedidos/admin e local-first. Na Vercel, os pedidos nao sao uma fila partilhada persistente sem uma base de dados externa.
 - Para analytics real, usa uma base de dados externa ou Vercel KV/Postgres.
 - Para conteudo editavel, substitui os JSON por uma base de dados ou CMS.

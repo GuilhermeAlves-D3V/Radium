@@ -2,6 +2,8 @@
 
 Radium e um ecossistema pessoal para radio online: PWA, backend, grelha, programas, playlists seed e base operacional para ligar mais tarde a um stream real.
 
+O modo principal neste momento e `party mode`: uma radio local para festas em casa, com stream via AzuraCast, PWA na rede Wi-Fi, sugestoes de musicas e um deck admin simples.
+
 ## Stack
 
 - `apps/api`: Fastify + TypeScript, dados locais em JSON.
@@ -46,6 +48,14 @@ Se quiseres forcar um stream manualmente, tambem podes definir:
 RADIUM_STREAM_URL=http://localhost/listen/radium/radio.mp3
 ```
 
+## Party mode local
+
+Para usar numa festa em casa, corre o AzuraCast e a Radium no teu PC, com `HOST=0.0.0.0` e URLs no IP local do PC. Os convidados entram em `http://IP-DO-PC:5173`.
+
+O painel admin fica protegido por `RADIUM_ADMIN_PIN`. A fila social e guardada em `apps/api/data/party-queue.json`.
+
+Guia completo: `docs/party-mode.md`.
+
 ## Build
 
 ```bash
@@ -58,6 +68,8 @@ Em producao, a API serve tambem o build da PWA em `apps/web/dist`.
 ## Deploy na Vercel
 
 O repo inclui `vercel.json` e endpoints serverless em `api/*`, por isso a PWA consegue usar `/api/bootstrap`, `/api/now-playing`, `/api/schedule` e restantes rotas tambem na Vercel.
+
+Nota: Vercel serve bem a PWA publica/demo, mas nao substitui o modo festa local. Para convidados na tua casa ouvirem o AzuraCast do teu PC, usa o IP local do PC.
 
 Config recomendada na Vercel:
 
